@@ -1,5 +1,7 @@
 # COTIZADOR CIAMPI EN REACT
 
+<img src="./public/preview.jpg">
+
 Esta app hecha en React contiene las vistas para el proyecto del cotizador de ciampi para el lado de cliente (FrontEnd)
 
 ## Dependencias
