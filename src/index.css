@@ -39,3 +39,15 @@ body {
 .btn-primary {
     background-color: #840100 !important;
 }
+
+.page__container {
+    display: flex;
+    padding: 2rem;
+}
+
+.consultation__page {
+    border: solid red 1px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}

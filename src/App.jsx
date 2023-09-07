@@ -1,13 +1,31 @@
-// import { AppLayout } from "./Components/Layout"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { LoginPage, Dashboard } from './pages'
+import { useAppContext } from "./Context/CredentialsContext"
 
-import { LoginPage } from "./pages/LoginPage"
 
 function App() {
+
+  const [credentials, setCredentials] = useAppContext()
+
+  const { isLogged } = credentials || false
+
   return (
-    <>
-      <LoginPage />
-      {/* <AppLayout /> */}
-    </>
+
+    <BrowserRouter basename="/" >
+      <Routes>
+        {
+          !isLogged
+            ?
+            <>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </>
+            :
+            <Route path="/*" element={<Dashboard />} />
+        }
+
+      </Routes>
+    </BrowserRouter>
   )
 }
 
