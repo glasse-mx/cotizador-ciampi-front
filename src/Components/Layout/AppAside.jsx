@@ -10,6 +10,9 @@ export const AppAside = () => {
 
     const handleLogOut = () => {
 
+        localStorage.removeItem('thai-credentials')
+        window.location.href = '/'
+
 
         let config = {
             method: 'post',
@@ -34,7 +37,7 @@ export const AppAside = () => {
     }
 
     return (
-        <aside className="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent ps">
+        <aside className="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent ps flex flex-col justify-between">
             <div>
                 <div className="logoApp">
                     <img src="./img/app-logo.png" alt={`${import.meta.env.VITE_COMPANY_NAME} Logo`} />

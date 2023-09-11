@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useAppContext } from "../Context/CredentialsContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export const Clients = () => {
 
@@ -33,13 +35,17 @@ export const Clients = () => {
         return match
     }
 
-
-    console.log(allClients)
-
-
-
     return (
         <div className="w-full h-full px-6 py-6 mx-auto">
+
+            <div className="my-4 flex justify-end">
+                <Link to="/clientes/nuevo">
+                    <Button className="btn-primary" variant="contained">
+                        Añadir Cliente
+                    </Button>
+                </Link>
+            </div>
+
             <div className="flex flex-wrap -mx-3">
                 <div className="flex-none w-full max-w-full px-3">
                     <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -85,7 +91,13 @@ export const Clients = () => {
                                                             <p className="mb-0 text-xs font-semibold leading-tight">{client.address_state ? client.address_state : 'N/A'}</p>
                                                         </td>
                                                         <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                            <a href="#" className="text-xs font-semibold leading-tight text-slate-400"> Edit </a>
+
+                                                            <Link
+                                                                to={`/clientes/${client.id}`}
+                                                                className="text-xs font-semibold leading-tight text-slate-400"
+                                                            >
+                                                                Edit
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 )

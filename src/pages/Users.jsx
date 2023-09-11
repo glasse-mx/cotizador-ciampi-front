@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useAppContext } from "../Context/CredentialsContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export const Users = () => {
 
@@ -36,11 +38,20 @@ export const Users = () => {
 
     return (
         <div className="w-full h-full px-6 py-6 mx-auto">
+
+            <div className="my-4 flex justify-end">
+                <Link to="/usuarios/nuevo">
+                    <Button className="btn-primary" variant="contained">
+                        Añadir Usuario
+                    </Button>
+                </Link>
+            </div>
+
             <div className="flex flex-wrap -mx-3">
                 <div className="flex-none w-full max-w-full px-3">
                     <div className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                         <div className="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                            <h6>Clientes</h6>
+                            <h6>Usuarios</h6>
                         </div>
                         <div className="flex-auto px-0 pt-0 pb-2">
                             <div className="p-0 overflow-x-auto">
@@ -74,7 +85,7 @@ export const Users = () => {
                                                             <p className="mb-0 text-xs font-semibold leading-tight">{user.email}</p>
                                                         </td>
                                                         <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                            <a href="#" className="text-xs font-semibold leading-tight text-slate-400"> Edit </a>
+                                                            <Link to={`/usuario/${user.id}`} className="text-xs font-semibold leading-tight text-slate-400"> Edit </Link>
                                                         </td>
                                                     </tr>
                                                 )
