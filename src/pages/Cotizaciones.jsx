@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useAppContext } from "../Context/CredentialsContext";
+import { coinFormat } from '../Hooks/useTools'
 
 export const Cotizaciones = () => {
 
@@ -36,6 +37,8 @@ export const Cotizaciones = () => {
     useEffect(() => {
         getCotizaciones()
     }, [])
+
+    console.log(cotizaciones)
 
     return (
         <div className='w-full h-full px-6 py-6 mx-auto'>
@@ -72,9 +75,13 @@ export const Cotizaciones = () => {
                                         {
                                             loading
                                                 ? (
-                                                    <Box sx={{ display: 'flex' }}>
-                                                        <CircularProgress />
-                                                    </Box>
+                                                    <tr>
+                                                        <td span="6">
+                                                            <Box sx={{ display: 'flex' }}>
+                                                                <CircularProgress />
+                                                            </Box>
+                                                        </td>
+                                                    </tr>
                                                 )
                                                 : (
                                                     cotizaciones && cotizaciones.map((cotizacion) => (
@@ -89,14 +96,14 @@ export const Cotizaciones = () => {
                                                             <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                                 <div className="flex px-2 py-1">
                                                                     <div className="flex flex-col justify-center">
-                                                                        <h6 className="mb-0 text-sm leading-normal">{cotizacion.id_user}</h6>
+                                                                        <h6 className="mb-0 text-sm leading-normal">{cotizacion.created_by}</h6>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                                 <div className="flex px-2 py-1">
                                                                     <div className="flex flex-col justify-center">
-                                                                        <h6 className="mb-0 text-sm leading-normal">{cotizacion.id_client}</h6>
+                                                                        <h6 className="mb-0 text-sm leading-normal">{cotizacion.id_cliente}</h6>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -110,7 +117,7 @@ export const Cotizaciones = () => {
                                                             <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                                 <div className="flex px-2 py-1">
                                                                     <div className="flex flex-col justify-center">
-                                                                        <h6 className="mb-0 text-sm leading-normal">{cotizacion.total}</h6>
+                                                                        <h6 className="mb-0 text-sm leading-normal">{coinFormat(cotizacion.total)}</h6>
                                                                     </div>
                                                                 </div>
                                                             </td>

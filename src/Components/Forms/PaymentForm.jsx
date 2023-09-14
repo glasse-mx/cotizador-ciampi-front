@@ -1,13 +1,59 @@
-import { TextField } from "@mui/material"
+import { Button } from "@mui/material"
 import { PaymentItem } from "./PaymentItem"
 
-export const PaymentForm = () => {
+export const PaymentForm = ({ order, setOrder }) => {
+
+    const initialVal = {
+        paymentType: 0,
+        amount: 0,
+        bank: 0,
+        reference: ''
+    }
+
+    const { detalles_pago } = order
+    console.log(order)
+
+    const handleAddPago = () => {
+        setOrder({ ...order, detalles_pago: [...detalles_pago, initialVal] })
+        console.log(detalles_pago)
+    }
+
+    const handleEditPago = (e, index) => {
+        const { name, value } = e.target
+        const list = [...detalles_pago]
+        list[index][name] = value
+        setOrder({ ...order, detalles_pago: list })
+    }
+
+    const handleDeletePago = (index) => {
+        const list = [...detalles_pago]
+        list.splice(index, 1)
+        setOrder({ ...order, detalles_pago: list })
+    }
+
+    console.log(detalles_pago)
+
 
     return (
         <>
+            <Button onClick={handleAddPago}>
+                <i className="fas fa-plus"></i> Agregar
+            </Button>
 
-            <PaymentItem />
+            {
+                detalles_pago && (
+                    detalles_pago.map((item, index) =>
+                        <PaymentItem
+                            key={index}
+                            index={index}
+                            value={item}
+                            onChange={handleEditPago}
+                            onDelete={handleDeletePago}
+                        />
+                    )
+                )
 
+            }
 
         </>
     )

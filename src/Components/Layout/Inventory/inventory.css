@@ -1,0 +1,69 @@
+.inventorySidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 0 12px 3px rgba(0, 0, 0, .15);
+    max-width: 250px
+}
+
+.category_child {
+    border: solid 1px #ccc;
+    display: none;
+}
+
+
+.parent_cat.opened .category_child {
+    display: block;
+}
+
+.category_grandchild {
+    display: none;
+}
+
+.parent_cat.opened .category_child .opened {
+    display: block;
+}
+
+.child_cat.opened .category_grandchild {
+    display: block;
+}
+
+.item__card {
+    display: flex;
+    gap: 1rem;
+    border: solid #ccc 1px;
+    border-radius: 10px;
+    padding: .5rem;
+    margin: 1rem 0;
+    max-width: 600px;
+    background: #fff;
+    box-shadow: 0 0 12px 3px rgba(0, 0, 0, .15);
+}
+
+.item__card * {
+    margin: 0
+}
+
+.item__card img {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.item__card .price__holder span {
+    font-weight: 600;
+    font-size: 1.15rem;
+}
+
+.item__card .card__content .available {
+    color: #00b100;
+    font-weight: 600;
+}
+
+.item__card .card__content .unavailable {
+    color: #980000;
+    font-weight: 600;
+}

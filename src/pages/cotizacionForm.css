@@ -1,0 +1,88 @@
+.row-2x {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.row-60-40 {
+    display: grid;
+    grid-template-columns: 60% auto;
+    gap: 1rem;
+}
+
+.box1,
+.box2,
+.box3,
+.box4 {
+    padding: 1rem 1.5rem;
+}
+
+.box1 .col *,
+.box2 .col *,
+.box4 .col * {
+    margin: 0;
+}
+
+.box1 {
+    border-bottom: solid 1px #ccc;
+}
+
+.box1 .col h3 {
+    margin-bottom: 1rem;
+}
+
+.box1 .col:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    text-align: right;
+}
+
+.box2 .col h6 {
+    margin-bottom: .5rem;
+}
+
+.box3 table {
+    width: 100%;
+    border-collapse: collapse;
+
+}
+
+.box3 table thead tr {
+    background: #F8F9FA;
+    border-radius: ;
+}
+
+.box3 table thead tr th {
+    padding: .5rem .75rem;
+    text-align: left;
+}
+
+.box3 table tbody tr td {
+    padding: 1rem;
+    border-bottom: solid 1px #F1F3F5;
+}
+
+.box4 .col:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F9F9FA;
+    border: solid 1px #DFE4EA;
+    border-radius: .5rem;
+    padding: 1.5rem 0;
+}
+
+.box4 .col:nth-child(2) .total__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem;
+}
+
+.box4 .col:nth-child(2) .total__container p:nth-child(even) {
+    text-align: right;
+}
+
+.box4 .col:nth-child(2) .total__container h4 {
+    font-weight: 800;
+}

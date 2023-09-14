@@ -155,26 +155,30 @@ export const AppAside = () => {
                     </li>
                 </ul>
             </div>
-            <div>
-                <h3 className="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">
-                    Configuraciones
-                </h3>
-                <ul className="flex flex-col pl-0 mb-0">
-                    <li className="mt-0 5 w-full">
-                        <Link
-                            to="/usuarios"
-                            className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
-                        >
-                            <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-                                <span className="material-symbols-rounded text-gray-600">
-                                    group
-                                </span>
-                            </div>
-                            Gestion de Usuarios
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+            {
+                credentials.user.user_type >= 3 && (
+                    <div>
+                        <h3 className="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">
+                            Configuraciones
+                        </h3>
+                        <ul className="flex flex-col pl-0 mb-0">
+                            <li className="mt-0 5 w-full">
+                                <Link
+                                    to="/usuarios"
+                                    className="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
+                                >
+                                    <div className="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                                        <span className="material-symbols-rounded text-gray-600">
+                                            group
+                                        </span>
+                                    </div>
+                                    Gestion de Usuarios
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                )
+            }
         </aside>
     )
 }

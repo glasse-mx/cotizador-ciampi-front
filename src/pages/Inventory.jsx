@@ -1,49 +1,102 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
+import axios from 'axios'
+import { useState } from 'react'
+import { getCategories } from '../Hooks/useInventory'
+import { ItemCard, InventorySidebar } from '../Components/Layout/Inventory';
+import '../Components/Layout/Inventory/Inventory.css'
+
+const url = import.meta.env.VITE_WOOCOMMERCE_API_URL;
+const username = import.meta.env.VITE_WORDPRESS_USER_NAME
+const password = import.meta.env.VITE_WORDPRESS_USER_PASS
+const basicAuth = 'Basic ' + btoa(username + ':' + password);
 
 export const Inventory = () => {
 
-    const [categories, setCategories] = useState([])
     const [products, setProducts] = useState([])
+    const [allPages, setAllPages] = useState(0)
+    const [isLoading, setIsLoading] = useState(true)
+    const [activeCategory, setActiveCategory] = useState(0)
+    const [activePage, setActivePage] = useState(1)
 
-    useEffect(() => {
+    const [categories] = getCategories()
 
-        const username = import.meta.env.VITE_WORDPRESS_USER_NAME
-        const password = import.meta.env.VITE_WORDPRESS_USER_PASS
-        const basicAuth = 'Basic ' + btoa(username + ':' + password)
 
-        let config = {
+    /**
+     * 
+     * @param {int} activeCategory 
+     * @param {int} activePage 
+     * @param {boolean} isOnSale 
+     * @param {string} orderBy 
+     */
+    const handleLoadProducts = async (activeCategory = 0, activePage = 1, isOnSale = false, orderBy = 'default') => {
+
+        let order = ''
+
+        switch (orderBy) {
+            case 'lowerPrice':
+                order = `orderby=price&order=asc`
+                break
+            case 'higherPrice':
+                order = `orderby=price&order=desc`
+                break
+
+            default:
+                order = `order=asc`
+        }
+
+        const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${import.meta.env.VITE_WOOCOMMERCE_API_URL}/products/categories?per_page=30`,
+            url: `${url}/products?per_page=12&${order}${(activeCategory != 0) ? `&category=${activeCategory}` : ''}${activePage != 1 ? `&page=${activePage}` : ''}`,
             headers: {
-                'Authorization': basicAuth
+                'Authorization': basicAuth,
+                'Content-Type': 'application/json',
             }
         }
 
-        axios.request(config)
-            .then((response) => {
-                setCategories(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [])
+        try {
+            const response = await axios.request(config)
+            setProducts(response.data)
+            setAllPages(response.headers['x-wp-totalpages'])
+            setIsLoading(false)
+            setActiveCategory(activeCategory)
+            setActivePage(activePage)
+        } catch {
+            console.error('Error de conexion')
+        }
 
+    }
 
-    console.log(categories)
+    const handleSelectCategory = (e) => {
+        handleLoadProducts(e.target.value, activePage)
+        console.log(products)
+    }
 
 
     return (
-        <div className="w-full h-full px-6 pr-10 py-6 mx-auto">
-            <h4>Inventario</h4>
+        <div className="w-full h-full px-6 pr-10 py-6 mx-auto flex">
+            <InventorySidebar
+                categories={categories}
+                onSelect={handleSelectCategory}
+                activeCategory={activeCategory}
+            />
+            <div className="inventoryContent">
+                <div className="inventoryContent__header">
+                    {
+                        (products.length > 0) ?
+                            products.map((product, index) => (
+                                <ItemCard
+                                    key={index}
+                                    product={product}
+                                />
+                            ))
+                            : (
+                                <div className="no_selected">
+                                    <h3>Seleccione una categoria</h3>
+                                </div>
+                            )
 
-            <div className="flex flex-wrap -mx-3">
-
-                <h6>Maquinas</h6>
-                <h6>Bases de Helado</h6>
-                <h6>Conos de Helado</h6>
-
+                    }
+                </div>
             </div>
         </div>
     )

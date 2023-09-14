@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
 
-export const BasicsForm = ({ credentials }) => {
+export const BasicsForm = ({ orderData, setOrderData }) => {
 
     function getFormattedDate() {
         const now = new Date();
@@ -21,13 +21,13 @@ export const BasicsForm = ({ credentials }) => {
                     variant='outlined'
                     label='Punto de Venta'
                     name='pdv'
-                    value={import.meta.env.VITE_COMPANY_NAME}
+                    value={orderData.pdv}
                     disabled
                 />
                 <TextField
                     variant='outlined'
                     label='Vendedor'
-                    value={credentials.user.name}
+                    value={orderData.created_by}
                     disabled
                 />
                 <TextField
