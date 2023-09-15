@@ -11,11 +11,9 @@ export const SetleForm = ({ order, setOrder }) => {
     }
 
     const { detalles_anticipo } = order
-    console.log(detalles_anticipo)
 
     const handleAddAnticipo = () => {
         setOrder({ ...order, detalles_anticipo: [...detalles_anticipo, initialVal] })
-        console.log(detalles_anticipo)
     }
 
     const handleEditAnticipo = (e, index) => {

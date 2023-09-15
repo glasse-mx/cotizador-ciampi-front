@@ -11,7 +11,7 @@ export const PaymentForm = ({ order, setOrder }) => {
     }
 
     const { detalles_pago } = order
-    console.log(order)
+
 
     const handleAddPago = () => {
         setOrder({ ...order, detalles_pago: [...detalles_pago, initialVal] })
@@ -30,8 +30,6 @@ export const PaymentForm = ({ order, setOrder }) => {
         list.splice(index, 1)
         setOrder({ ...order, detalles_pago: list })
     }
-
-    console.log(detalles_pago)
 
 
     return (

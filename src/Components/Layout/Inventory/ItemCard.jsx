@@ -3,8 +3,12 @@ import defaultImg from '../../../assets/img/default.png'
 
 export const ItemCard = ({ product }) => {
 
+    const handleOnClick = () => {
+        console.log(product)
+    }
+
     return (
-        <div className="item__card">
+        <div className="item__card" onClick={handleOnClick}>
 
             <img src={product.images[0] ? product.images[0]?.src : defaultImg} alt={product.name} />
 

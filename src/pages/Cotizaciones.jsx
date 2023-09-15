@@ -38,8 +38,6 @@ export const Cotizaciones = () => {
         getCotizaciones()
     }, [])
 
-    console.log(cotizaciones)
-
     return (
         <div className='w-full h-full px-6 py-6 mx-auto'>
 

@@ -5,10 +5,11 @@
     border-radius: 1rem;
     background: #fff;
     box-shadow: 0 0 12px 3px rgba(0, 0, 0, .15);
-    max-width: 250px
+    max-width: 250px;
+
 }
 
-.category_child {
+/* /* .category_child {
     border: solid 1px #ccc;
     display: none;
 }
@@ -16,7 +17,7 @@
 
 .parent_cat.opened .category_child {
     display: block;
-}
+} */
 
 .category_grandchild {
     display: none;

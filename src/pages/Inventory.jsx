@@ -74,6 +74,41 @@ export const Inventory = () => {
 
     return (
         <div className="w-full h-full px-6 pr-10 py-6 mx-auto flex">
+            {/* {
+                isLoading ? (
+                    <div className="w-full h-full max-h-screen flex justify-center items-center">
+                        <i className="fas fa-spinner fa-spin fa-2x"></i>
+                    </div>
+                ) : (
+                    <>
+                        <InventorySidebar
+                            categories={categories}
+                            onSelect={handleSelectCategory}
+                            activeCategory={activeCategory}
+                        />
+                        <div className="inventoryContent">
+                            <div className="inventoryContent__header">
+                                {
+                                    (products.length > 0) ?
+                                        products.map((product) => (
+                                            <ItemCard
+                                                key={product.id}
+                                                product={product}
+                                            />
+                                        ))
+                                        : (
+                                            <div className="no_selected">
+                                                <h3>Seleccione una categoria</h3>
+                                            </div>
+                                        )
+
+                                }
+                            </div>
+                        </div>
+                    </>
+                )
+            } */}
+
             <InventorySidebar
                 categories={categories}
                 onSelect={handleSelectCategory}
@@ -83,9 +118,9 @@ export const Inventory = () => {
                 <div className="inventoryContent__header">
                     {
                         (products.length > 0) ?
-                            products.map((product, index) => (
+                            products.map((product) => (
                                 <ItemCard
-                                    key={index}
+                                    key={product.id}
                                     product={product}
                                 />
                             ))

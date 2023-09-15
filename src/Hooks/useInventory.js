@@ -104,3 +104,30 @@ export const handleLoadProducts = (activeCategory = 0, activePage = 1, isOnSale 
     return [products, allPages]
 
 }
+
+export const handleSearchProducts = (searchTerm = '') => {
+
+    const [products, setProducts] = useState([])
+
+    const config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `${url}/products?per_page=60&search=${searchTerm}`,
+        headers: {
+            'Authorization': basicAuth,
+            'Content-Type': 'application/json',
+        }
+    }
+
+    useEffect(() => {
+        axios.request(config)
+            .then((response) => {
+                setProducts(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
+
+    return [products]
+}

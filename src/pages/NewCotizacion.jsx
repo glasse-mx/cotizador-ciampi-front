@@ -6,10 +6,18 @@ import { ClientForm } from '../Components/Forms/ClientForm'
 import { SetleForm } from '../Components/Forms/SetleForm'
 import { useState } from 'react'
 import { PaymentForm } from '../Components/Forms/PaymentForm'
+import { ItemsForm } from '../Components/Forms/ItemsForm'
+import { ProductsTable } from '../Components/Layout/ProductsTable'
+import { TotalFolio } from '../Components/Layout/TotalFolio'
+import { Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export const NewCotizacion = () => {
 
     const [credentials, setCredentials] = useAppContext()
+    const navigate = useNavigate()
+
 
     const initialOrderValue = {
         created_by: credentials.user.id,
@@ -30,6 +38,28 @@ export const NewCotizacion = () => {
 
     const [order, setOrder] = useState(initialOrderValue)
     const date = getActualDate()
+
+    const handleCreateCotizacion = (e) => {
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/orders`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`,
+            },
+            data: order
+        };
+
+        axios.request(config)
+            .then((response) => {
+                navigate('/cotizaciones')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     return (
         <div className='w-full px-6 py-6 mx-auto'>
@@ -66,52 +96,18 @@ export const NewCotizacion = () => {
                             </div>
 
                             <div className="box3">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Articulo</th>
-                                            <th>Cant</th>
-                                            <th>Precio Unit.</th>
-                                            <th>Desc.</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Maquina de Helado Suave D520S</td>
-                                            <td>1</td>
-                                            <td>$ 50,500.00</td>
-                                            <td>-</td>
-                                            <td>$ 50,500.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Base de Helado Suave de Leche - Chocolate</td>
-                                            <td>2</td>
-                                            <td>$ 1,000.00</td>
-                                            <td>-</td>
-                                            <td>$ 2,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Regulador Ciampi</td>
-                                            <td>1</td>
-                                            <td>$ 5,000.00</td>
-                                            <td>-</td>
-                                            <td>$ 5,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Promocion Regulador Gratis</td>
-                                            <td>1</td>
-                                            <td> - </td>
-                                            <td> -$ 5,000.00</td>
-                                            <td>- $5,000.00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div className="row">
+                                    <ItemsForm
+                                        order={order}
+                                        setOrder={setOrder}
+                                    />
+                                    <ProductsTable
+                                        order={order}
+                                        setOrder={setOrder}
+                                    />
+
+                                </div>
+
                             </div>
 
                             <div className="row-60-40 box4">
@@ -141,12 +137,21 @@ export const NewCotizacion = () => {
                                 </div>
                                 <div className="col">
                                     <div className="total__container">
-                                        <p>Subtotal</p> <p><b>$57,700.00</b></p>
-                                        <p>Descuento</p> <p><b>-$5,000.00</b></p>
-                                        <h4>TOTAL</h4> <h4>$52,700.00</h4>
+                                        <TotalFolio
+                                            order={order}
+                                        />
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="row box5 flex justify-center">
+                                <Button
+                                    onClick={handleCreateCotizacion}
+                                >
+                                    Crear Cotizacion
+                                </Button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
