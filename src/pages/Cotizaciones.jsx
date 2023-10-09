@@ -122,9 +122,13 @@ export const Cotizaciones = () => {
                                                             <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                                 <div className="flex px-2 py-1">
                                                                     <div className="flex flex-col justify-center">
-                                                                        <h6 className="mb-0 text-sm leading-normal"><span className="material-symbols-rounded text-gray-600">
-                                                                            edit
-                                                                        </span></h6>
+                                                                        <Link to={`/cotizaciones/${cotizacion.id}`}>
+                                                                            <h6 className="mb-0 text-sm leading-normal">
+                                                                                <span className="material-symbols-rounded text-gray-600">
+                                                                                    edit
+                                                                                </span>
+                                                                            </h6>
+                                                                        </Link>
                                                                     </div>
                                                                 </div>
                                                             </td>
