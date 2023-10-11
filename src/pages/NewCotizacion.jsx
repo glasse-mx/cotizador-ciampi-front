@@ -62,7 +62,7 @@ export const NewCotizacion = () => {
     }
 
     return (
-        <div className='w-full px-6 py-6 mx-auto'>
+        <div className='w-full px-6 py-6 mx-auto cotizacionPage'>
             <div className='flex flex-wrap -mx-3'>
 
                 <div className='flex-none w-full max-w-full px-3'>

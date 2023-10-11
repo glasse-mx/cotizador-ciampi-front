@@ -51,3 +51,7 @@ body {
     width: 100%;
     flex-direction: column;
 }
+
+.cotizacionPage {
+    max-width: 950px;
+}

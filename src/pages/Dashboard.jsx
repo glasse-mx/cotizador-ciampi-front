@@ -5,6 +5,7 @@ import { ClientDetail } from "./ClientDetail"
 import { NewClient } from "./NewClient"
 import { SingleUser } from "./SingleUser"
 import { NewUser } from "./NewUser"
+import { SingleCotizacion } from "./SingleCotizacion"
 
 
 export const Dashboard = () => {
@@ -17,6 +18,7 @@ export const Dashboard = () => {
                 <Route path="/clientes/nuevo" element={<NewClient />} />
                 <Route path="/nueva-cotizacion" element={<NewCotizacion nombre="Nueva Cotizacion" />} />
                 <Route path="/cotizaciones" element={<Cotizaciones />} />
+                <Route path="/cotizaciones/:id" element={<SingleCotizacion />} />
                 <Route path="/notas-venta" element={<Sales />} />
                 <Route path="/notas-canceladas" element={<Cancelations />} />
                 <Route path="/inventario" element={<Inventory />} />
