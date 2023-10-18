@@ -3,7 +3,7 @@ import { AppBreadCrumbs } from './AppBreadCrumbs'
 
 export const AppNavBar = ({ nombrePagina }) => {
 
-    const [credentials, setCredentials] = useAppContext()
+    const [credentials] = useAppContext()
 
 
     return (

@@ -11,6 +11,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    background-color: #F8F9FA;
 }
 
 :root {
@@ -54,4 +55,39 @@ body {
 
 .cotizacionPage {
     max-width: 950px;
+}
+
+.text-danger {
+    color: #840100 !important;
+}
+
+.loading__container {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#orderCancelled {
+    position: relative;
+    overflow: hidden;
+}
+
+#orderCancelled::after {
+    content: 'CANCELADA';
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 175px;
+    font-weight: 800;
+    transform: rotate(-45deg);
+    color: #840100;
+    opacity: .75;
+    z-index: 2;
 }

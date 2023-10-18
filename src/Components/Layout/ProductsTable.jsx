@@ -6,17 +6,26 @@ export const ProductsTable = ({ order, setOrder }) => {
     const { productos, descuentos } = order
 
     const handleDeleteProduct = (e) => {
+
+        const deleteId = e.target.dataset.prod
+        const newProducts = productos.filter(producto => producto.id != deleteId)
         setOrder({
             ...order,
-            productos: productos.filter(producto => producto.id !== producto.id)
+            productos: newProducts
         })
     }
 
     const handleDeletePromo = (e) => {
-        console.log(e.target)
+
+        const deleteId = parseInt(e.target.dataset.desc) + 1
+        console.log(deleteId)
+        const newDescuentos = descuentos.splice(deleteId, 1)
+        setOrder({
+            ...order,
+            descuentos: newDescuentos
+        })
+
     }
-
-
 
     return (
         <table>
@@ -42,7 +51,7 @@ export const ProductsTable = ({ order, setOrder }) => {
                             <td> - </td>
                             <td>{coinFormat(parseInt(producto.price) * producto.cant)}</td>
                             <td>
-                                <span className="material-symbols-rounded cursor-pointer" onClick={handleDeleteProduct}>
+                                <span className="material-symbols-rounded cursor-pointer" onClick={handleDeleteProduct} data-prod={producto.id}>
                                     delete
                                 </span>
                             </td>
@@ -53,14 +62,14 @@ export const ProductsTable = ({ order, setOrder }) => {
                 {
                     descuentos.map((descuento, index) => (
                         <tr key={index}>
-                            <td>1</td>
+                            <td> - </td>
                             <td>{descuento.descripcion}</td>
                             <td>{descuento.cant}</td>
                             <td> - </td>
                             <td>{coinFormat(descuento.valor)}</td>
                             <td>{coinFormat(descuento.cant * descuento.valor)}</td>
                             <td>
-                                <span className="material-symbols-rounded cursor-pointer" onClick={handleDeletePromo}>
+                                <span className="material-symbols-rounded cursor-pointer" onClick={handleDeletePromo} data-desc={index}>
                                     delete
                                 </span>
                             </td>

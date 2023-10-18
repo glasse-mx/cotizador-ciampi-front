@@ -1,13 +1,14 @@
 import { Button, TextField } from "@mui/material"
 import { useState } from "react"
 import axios from "axios";
+import { VariableProductItems } from "../Layout/Inventory/VariableProductItems";
 
 const url = import.meta.env.VITE_WOOCOMMERCE_API_URL;
 const username = import.meta.env.VITE_WORDPRESS_USER_NAME
 const password = import.meta.env.VITE_WORDPRESS_USER_PASS
 const basicAuth = 'Basic ' + btoa(username + ':' + password);
 
-export const ProductoForm = ({ productos, action }) => {
+export const ProductoForm = ({ productos, action, actionVariation }) => {
 
     const [search, setSearch] = useState('')
     const [inventory, setInventory] = useState([])
@@ -23,7 +24,7 @@ export const ProductoForm = ({ productos, action }) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${url}/products?per_page=30&search=${search}`,
+            url: `${url}/products?per_page=50&search=${search}`,
             headers: {
                 'Authorization': basicAuth,
             }
@@ -45,7 +46,7 @@ export const ProductoForm = ({ productos, action }) => {
     return (
         <>
             <div className="flex justify-center">
-                <form>
+                <form className="flex gap-2 my-2">
                     <TextField
                         id="search"
                         label="Buscar"
@@ -55,14 +56,14 @@ export const ProductoForm = ({ productos, action }) => {
                         value={search}
                         onChange={handleSearchInputChange}
                     />
-                    <Button type="submit" onClick={handleSearchProducts}>
+                    <Button variant="contained" type="submit" onClick={handleSearchProducts}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                         Buscar
                     </Button>
                 </form>
-                <Button>
+                {/* <Button variant="contained">
                     Navegar
-                </Button>
+                </Button> */}
             </div>
 
             {
@@ -82,39 +83,47 @@ export const ProductoForm = ({ productos, action }) => {
                             <tbody>
                                 {
                                     inventory.map((product, index) => (
-                                        <tr key={index}>
-                                            <td>{product.sku}</td>
-                                            <td>{product.name}</td>
-                                            <td>
-                                                {product.categories[0].name}
-                                            </td>
-                                            <td>{product.price}</td>
-                                            <td>
-                                                {product.stock_status == 'instock'
-                                                    ? (product.stock_quantity ? (
-                                                        <span className="available">
-                                                            {product.stock_quantity}
-                                                        </span>
-                                                    ) : (
-                                                        <span className="unavailable">
-                                                            DISPONIBLE
-                                                        </span>
-                                                    ))
-                                                    : (
-                                                        <span className="unavailable">
-                                                            NO DISPONIBLE
-                                                        </span>
-                                                    )}
-                                            </td>
-                                            <td>
-                                                <span
-                                                    className="material-symbols-rounded text-gray-600 hover:text-green-900 cursor-pointer"
-                                                    onClick={e => action(product)}
-                                                >
-                                                    playlist_add
-                                                </span>
-                                            </td>
-                                        </tr>
+                                        product.variations.length < 1 ? (
+                                            <tr key={index}>
+                                                <td>{product.sku}</td>
+                                                <td>{product.name}</td>
+                                                <td>
+                                                    {product.categories[0].name}
+                                                </td>
+                                                <td>{product.price}</td>
+                                                <td>
+                                                    {product.stock_status == 'instock'
+                                                        ? (product.stock_quantity ? (
+                                                            <span className="available">
+                                                                {product.stock_quantity}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="unavailable">
+                                                                DISPONIBLE
+                                                            </span>
+                                                        ))
+                                                        : (
+                                                            <span className="unavailable">
+                                                                NO DISPONIBLE
+                                                            </span>
+                                                        )}
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        className="material-symbols-rounded text-gray-600 hover:text-green-900 cursor-pointer"
+                                                        onClick={e => action(product)}
+                                                    >
+                                                        playlist_add
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ) : <VariableProductItems
+                                            key={index}
+                                            id={product.id}
+                                            category={product.categories[0].name}
+                                            action={actionVariation}
+                                            name={product.name}
+                                        />
                                     ))
                                 }
                             </tbody>

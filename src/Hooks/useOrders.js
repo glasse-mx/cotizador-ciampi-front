@@ -30,3 +30,13 @@ export const usePaymentOptions = () => {
 
     return paymentOptions;
 }
+
+/**
+ * Formatea el numero de Folio de una orden
+ * @param {Number} folio
+ * @returns {String} folio
+ */
+
+export const formatFolio = (folio) => {
+    return `CI${folio.toString().padStart(6, "0")}`;
+}

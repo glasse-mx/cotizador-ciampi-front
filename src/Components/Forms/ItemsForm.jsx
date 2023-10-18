@@ -19,10 +19,12 @@ export const ItemsForm = ({ order, setOrder }) => {
 
     const toggleIsAddingProduct = () => {
         setIsAddingProduct(!isAddingProduct)
+        setIsAddingPromo(false)
     }
 
     const toggleIsAddingPromo = () => {
-        setIsAddingPromo(!isAddingProduct)
+        setIsAddingPromo(!isAddingPromo)
+        setIsAddingProduct(false)
     }
 
     const [promoValue, setPromoValue] = useState(initialPromoValue)
@@ -44,9 +46,13 @@ export const ItemsForm = ({ order, setOrder }) => {
             ...order,
             descuentos: [
                 ...descuentos,
-                promoValue
-            ],
-            subtotal_promos: subtotal_promos + promoValue.valor,
+                {
+                    descripcion: promoValue.descripcion,
+                    cant: promoValue.cant,
+                    valor: promoValue.valor,
+                    subtotal: parseFloat(promoValue.valor) * parseFloat(promoValue.cant)
+                }
+            ]
         })
 
         const subtotal = subtotalRef.current.value
@@ -73,27 +79,56 @@ export const ItemsForm = ({ order, setOrder }) => {
                     subtotal: parseInt(product.price) * (product.cant || 1),
                     sku: product.sku
                 }
-            ],
-            subtotal_productos: subtotal_productos + (parseInt(product.price) * (product.cant || 1)),
+            ]
+        })
+
+        setIsAddingProduct(false)
+    }
+
+    const handleAddVariation = (variation, name) => {
+
+        setOrder({
+            ...order,
+            productos: [
+                ...productos,
+                {
+                    id: variation.id,
+                    name: `${name} sabor ${variation.attributes[0]?.option}`,
+                    cant: 1,
+                    price: parseInt(variation.regular_price),
+                    subtotal: parseInt(variation.regular_price),
+                    sku: variation.sku
+                },
+            ]
         })
 
         setIsAddingProduct(false)
     }
 
     useEffect(() => {
+        const newSubtotalProd = productos.reduce((acc, curr) => acc + curr.subtotal, 0)
+        const newSubtotalPromo = descuentos.reduce((acc, curr) => acc + curr.subtotal, 0)
         setOrder({
             ...order,
-            total: subtotal_productos - subtotal_promos
+            subtotal_productos: newSubtotalProd,
+            subtotal_promos: newSubtotalPromo,
+            total: newSubtotalProd - newSubtotalPromo
         })
-    }, [subtotal_productos, subtotal_promos])
+    }, [order])
 
     return (
         <>
             <div className="row flex justify-center">
-                <Button onClick={toggleIsAddingProduct}>
+                <Button
+                    variant="contained"
+                    onClick={toggleIsAddingProduct}
+                >
                     Agregar Producto
                 </Button>
-                <Button onClick={toggleIsAddingPromo}>
+                <Button
+                    variant="contained"
+                    onClick={toggleIsAddingPromo}
+                >
                     Agregar Promocion
                 </Button>
 
@@ -142,6 +177,7 @@ export const ItemsForm = ({ order, setOrder }) => {
                     <ProductoForm
                         productos={productos}
                         action={handleAddProduct}
+                        actionVariation={handleAddVariation}
                     />
                 )
             }

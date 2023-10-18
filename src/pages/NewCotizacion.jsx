@@ -4,7 +4,7 @@ import { useAppContext } from '../Context/CredentialsContext'
 import './cotizacionForm.css'
 import { ClientForm } from '../Components/Forms/ClientForm'
 import { SetleForm } from '../Components/Forms/SetleForm'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PaymentForm } from '../Components/Forms/PaymentForm'
 import { ItemsForm } from '../Components/Forms/ItemsForm'
 import { ProductsTable } from '../Components/Layout/ProductsTable'
@@ -17,6 +17,10 @@ export const NewCotizacion = () => {
 
     const [credentials, setCredentials] = useAppContext()
     const navigate = useNavigate()
+    const [error, setError] = useState({
+        clientError: false,
+        productError: false,
+    })
 
 
     const initialOrderValue = {
@@ -59,6 +63,9 @@ export const NewCotizacion = () => {
             .catch((error) => {
                 console.log(error);
             });
+
+        console.log(order)
+
     }
 
     return (
@@ -91,8 +98,16 @@ export const NewCotizacion = () => {
                                     <ClientForm
                                         orderData={order}
                                         setOrderData={setOrder}
+                                        error={error}
+                                        setError={setError}
                                     />
                                 </div>
+                                {
+                                    error.clientError &&
+                                    <div className="error__container">
+                                        <h6 className="text-danger">Debe Incluir un cliente</h6>
+                                    </div>
+                                }
                             </div>
 
                             <div className="box3">
@@ -107,7 +122,16 @@ export const NewCotizacion = () => {
                                     />
 
                                 </div>
-
+                                <div className="row">
+                                    {
+                                        error.productError &&
+                                        <div className="col">
+                                            <div className="error__container">
+                                                <h6 className="text-danger">Debe agregar al menos un producto</h6>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
 
                             <div className="row-60-40 box4">
@@ -129,10 +153,6 @@ export const NewCotizacion = () => {
                                                 setOrder={setOrder}
                                             />
                                         }
-                                        {/* <p>Transferencia Bancaria - BBVA - NUMREF</p>
-                                        <p><b>$25,000.00</b></p>
-                                        <p>Stripe MSI - NUMREF</p>
-                                        <p><b>$31,700.00</b></p> */}
                                     </div>
                                 </div>
                                 <div className="col">
@@ -144,8 +164,23 @@ export const NewCotizacion = () => {
                                 </div>
                             </div>
 
+                            <div className="box5 flex-none w-full max-w-full px-4">
+                                <div className="col">
+                                    <div className="observaciones__container flex-none w-full max-w-full">
+                                        <h6>Observaciones</h6>
+                                        <textarea
+                                            className="form-control w-full max-w-full"
+                                            rows="3"
+                                            placeholder="Observaciones"
+                                            value={order.observaciones}
+                                            onChange={(e) => setOrder({ ...order, observaciones: e.target.value })}
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="row box5 flex justify-center">
-                                <Button
+                                <Button variant="contained"
                                     onClick={handleCreateCotizacion}
                                 >
                                     Crear Cotizacion

@@ -22,3 +22,13 @@ export const coinFormat = (cantidad) => {
 
   return cantidad.toLocaleString('es-MX', opcionesMoneda);
 }
+
+export const formatFolio = (folio) => {
+    return `CI${folio.toString().padStart(6, "0")}`;
+}
+
+export const formatPhoneNumber = (phoneNumberString) => {
+    var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+    var match = cleaned.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3')
+    return match
+}

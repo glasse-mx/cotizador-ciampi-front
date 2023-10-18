@@ -56,14 +56,18 @@ export const PaymentItem = ({ index, value, onChange, onDelete }) => {
                 )
             }
 
-            <TextField
-                variant='outlined'
-                label='Referencia'
-                name='reference'
-                value={value.reference}
-                onChange={(e) => onChange(e, index)}
-                required
-            />
+            {
+                value.paymentType != 1 && (
+                    <TextField
+                        variant='outlined'
+                        label='Referencia'
+                        name='reference'
+                        value={value.reference}
+                        onChange={(e) => onChange(e, index)}
+                        required
+                    />
+                )
+            }
 
             <Button onClick={e => onDelete(index)}>
                 Eliminar

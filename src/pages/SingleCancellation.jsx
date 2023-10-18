@@ -1,21 +1,22 @@
 import iconImage from '../assets/img/cotizacion-icon.png'
-import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAppContext } from "../Context/CredentialsContext"
+import { useEffect, useState } from "react"
+import generatePDF from "react-to-pdf"
 import axios from "axios"
-import { coinFormat, formatFolio, formatPhoneNumber } from '../Hooks/useTools'
-import generatePDF from "react-to-pdf";
-import { Button, CircularProgress } from '@mui/material'
+import { coinFormat, formatFolio, formatPhoneNumber } from "../Hooks/useTools"
+import { Button, CircularProgress } from "@mui/material"
 
 
-export const SingleCotizacion = () => {
+export const SingleCancellation = () => {
 
     const { id } = useParams()
     const navigate = useNavigate()
-    const [isCotizacionLoading, setIsCotizacionLoading] = useState(true)
-    const [credentials, setCredentials] = useAppContext()
+    const [isCancellationLoading, setIsCancellationLoading] = useState(true)
+    const [credentials] = useAppContext()
     const [folio, setFolio] = useState({})
 
+    // Configuraciones para la impresion en PDF
     const options = {
         filename: `Cotizacion-${id}.pdf`,
         page: {
@@ -24,9 +25,7 @@ export const SingleCotizacion = () => {
     };
 
     const getTargetElement = () => document.getElementById("cotizacionContainer");
-
     const downloadPdf = () => generatePDF(getTargetElement, options);
-
 
     useEffect(() => {
 
@@ -42,7 +41,7 @@ export const SingleCotizacion = () => {
         axios.request(config)
             .then((response) => {
                 setFolio(response.data);
-                setIsCotizacionLoading(false);
+                setIsCancellationLoading(false);
             })
             .catch((error) => {
                 console.error(error);
@@ -51,26 +50,26 @@ export const SingleCotizacion = () => {
     }, [])
 
     return (
-        <div className='w-full px-6 py-6 mx-auto cotizacionPage '>
-            <div className='flex-none w-full max-w-full px-3'>
+        <div className="w-full px-6 py-6 mx-auto cotizacionPage">
+            <div className="flex-none w-full max-w-full px-3">
 
                 <div className='flex mb-4'>
-                    <Button variant='contained' onClick={() => navigate('/cotizaciones')}>
+                    <Button variant='contained' onClick={() => navigate('/notas-canceladas')}>
                         {`< Volver`}
                     </Button>
                 </div>
 
-                <div id='cotizacionContainer' className='relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border'>
-                    <div className='p-6 bg-white mb-6 border-b-0 border-b-solid rounded-t-2xl border-b-transparent '>
+                <div id='cotizacionContainer' className="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
 
+                    <div id='orderCancelled' className="p-6 bg-white mb-6 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         {
-                            !isCotizacionLoading ?
-                                (
+                            !isCancellationLoading
+                                ? (
                                     <>
                                         <div className="row-2x box1">
                                             <div className="col">
                                                 <div className="table__content">
-                                                    <h3>COTIZACION</h3>
+                                                    <h3>NOTA DE VENTA</h3>
                                                     <p>Folio Cotizacion: <b>{formatFolio(folio.folio_cotizacion_id)}</b></p>
                                                     {
                                                         folio.folio_nota_venta_id && <p>Folio Venta: <b>{formatFolio(folio.folio_nota_venta_id)}</b></p>
@@ -246,7 +245,8 @@ export const SingleCotizacion = () => {
                                             </div>
                                         </div>
                                     </>
-                                ) : (
+                                )
+                                : (
                                     <div className="loading__container">
                                         <CircularProgress />
                                     </div>
@@ -254,23 +254,6 @@ export const SingleCotizacion = () => {
                         }
                     </div>
                 </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 justify-between px-6'>
-
-                <Button onClick={downloadPdf} variant="contained">
-                    Descargar
-                    <span className="material-symbols-rounded text-gray-600">
-                        picture_as_pdf
-                    </span>
-                </Button>
-                <Link to={`/nueva-venta/${id}`}>
-                    <Button variant="contained" color="success">
-                        Convertir a Nota de Venta
-                        <span className="material-symbols-rounded text-gray-600">
-                            credit_score
-                        </span>
-                    </Button>
-                </Link>
             </div>
         </div>
     )

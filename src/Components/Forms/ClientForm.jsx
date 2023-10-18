@@ -6,7 +6,7 @@ import { useAppContext } from "../../Context/CredentialsContext"
 
 
 
-export const ClientForm = ({ orderData, setOrderData }) => {
+export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
 
     const [credentials, setCredentials] = useAppContext()
 
@@ -61,7 +61,9 @@ export const ClientForm = ({ orderData, setOrderData }) => {
                 setClientData(response.data)
                 setClientID(response.data.id)
                 setOrderData({ ...orderData, id_cliente: clientId })
-
+                setError({ ...error, clientError: false })
+                setClientError(false)
+                setErrorMessage('')
             })
     }
 
@@ -73,7 +75,9 @@ export const ClientForm = ({ orderData, setOrderData }) => {
         e.preventDefault()
 
         const method = clientData.id ? 'put' : 'post'
-        const url = clientData.id ? `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${clientData.id}` : `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/clients`
+        const url = clientData.id
+            ? `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${clientData.id}`
+            : `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/clients`
 
         let config = {
             method: method,
@@ -89,6 +93,11 @@ export const ClientForm = ({ orderData, setOrderData }) => {
         axios.request(config)
             .then((response) => {
                 setIsEditing(false)
+                console.log(response.data)
+                setClientID(response.data.id)
+                setClientData({ ...clientData, id: response.data.id })
+                setOrderData({ ...orderData, id_cliente: response.data.id })
+
                 // setIsLoading(false)
             })
             .catch((error) => {
@@ -116,7 +125,7 @@ export const ClientForm = ({ orderData, setOrderData }) => {
                     Buscar Cliente
                 </Button>
                 <Button variant="contained" onClick={handleDisabled}>
-                    Cliente Nuevo
+                    {clientId === 0 ? 'Agregar Cliente' : 'Editar Cliente'}
                 </Button>
             </div>
 
