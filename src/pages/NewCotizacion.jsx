@@ -96,8 +96,8 @@ export const NewCotizacion = () => {
                             <div className="box2">
                                 <div className="client-form__container">
                                     <ClientForm
-                                        orderData={order}
-                                        setOrderData={setOrder}
+                                        order={order}
+                                        setOrder={setOrder}
                                         error={error}
                                         setError={setError}
                                     />

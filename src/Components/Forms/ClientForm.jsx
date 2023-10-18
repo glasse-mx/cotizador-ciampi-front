@@ -1,12 +1,12 @@
 import { Button, TextField } from "@mui/material"
 import './form-helper.css'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { useAppContext } from "../../Context/CredentialsContext"
 
 
 
-export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
+export const ClientForm = ({ order, setOrder, error, setError }) => {
 
     const [credentials] = useAppContext()
 
@@ -39,33 +39,36 @@ export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
         setIsEditing(!isEditing)
     }
 
-    const handleSearchClient = (e) => {
-        e.preventDefault()
+    const handleSearchClient = async (e) => {
+        e.preventDefault();
 
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${clientId}`,
-            headers: {
-                'Authorization': `Bearer ${credentials.token}`
-            }
-        }
-
-        axios(config)
-            .then((response) => {
-                if (response.data.Message) {
-                    setClientError(true)
-                    setErrorMessage(response.data.Message)
-                    return
+        try {
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${clientId}`,
+                headers: {
+                    'Authorization': `Bearer ${credentials.token}`
                 }
-                setClientData(response.data)
-                setClientID(response.data.id)
-                setOrderData({ ...orderData, id_cliente: clientId })
-                setError({ ...error, clientError: false })
-                setClientError(false)
-                setErrorMessage('')
-            })
-    }
+            };
+
+            const response = await axios(config);
+            if (response.data.Message) {
+                setClientError(true);
+                setErrorMessage(response.data.Message);
+            } else {
+                setClientData(response.data);
+                setClientID(response.data.id);
+                console.log(clientId)
+                setError({ ...error, clientError: false });
+                setClientError(false);
+                setErrorMessage('');
+            }
+        } catch (error) {
+            console.error(error);
+            // Maneja el error de la solicitud aquí si es necesario
+        }
+    };
 
     const handleCliendID = (e) => {
         setClientID(e.target.value)
@@ -93,10 +96,9 @@ export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
         axios.request(config)
             .then((response) => {
                 setIsEditing(false)
-                console.log(response.data)
                 setClientID(response.data.id)
                 setClientData({ ...clientData, id: response.data.id })
-                setOrderData({ ...orderData, id_cliente: response.data.id })
+                setOrder({ ...order, id_cliente: parseInt(response.data.id) })
 
                 // setIsLoading(false)
             })
@@ -105,6 +107,9 @@ export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
             });
     }
 
+    useEffect(() => {
+        setOrder({ ...order, id_cliente: parseInt(clientId) })
+    }, [clientId])
 
     return (
         <>
