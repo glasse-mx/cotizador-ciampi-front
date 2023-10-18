@@ -8,7 +8,7 @@ import { useAppContext } from "../../Context/CredentialsContext"
 
 export const ClientForm = ({ orderData, setOrderData, error, setError }) => {
 
-    const [credentials, setCredentials] = useAppContext()
+    const [credentials] = useAppContext()
 
     const initialClientValue = {
         first_name: '',

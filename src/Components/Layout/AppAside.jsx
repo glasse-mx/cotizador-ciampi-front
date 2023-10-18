@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import axios from 'axios'
 import { useAppContext } from "../../Context/CredentialsContext"
-import AppLogoIcon from '../../assets/img/app-logo.png'
+import AppLogoIcon from '../../assets/img/ciampi-puntos.png'
 
 
 export const AppAside = () => {
@@ -41,7 +41,7 @@ export const AppAside = () => {
         <aside className="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent ps flex flex-col justify-between">
             <div>
                 <div className="logoApp">
-                    <img src={AppLogoIcon} alt={`${import.meta.env.VITE_COMPANY_NAME} Logo`} />
+                    <img src={AppLogoIcon} className="max-h-4" alt={`${import.meta.env.VITE_COMPANY_NAME} Logo`} />
                 </div>
                 <hr className="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
                 <h3 className="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">

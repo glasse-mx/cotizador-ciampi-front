@@ -42,7 +42,7 @@ export const ClientDetail = () => {
             maxBodyLength: Infinity,
             url: `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${id}`,
             headers: {
-                'Authorization': ` Bearer ${credentials.token}}`
+                'Authorization': `Bearer ${credentials.token}}`
             }
         };
 
@@ -61,29 +61,29 @@ export const ClientDetail = () => {
     }
 
     const handleEditingSubmit = (e) => {
+
         e.preventDefault()
         setIsLoading(true)
 
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
+        let configEdit = {
+            method: 'put',
+            // maxBodyLength: Infinity,
             url: `${import.meta.env.VITE_BACKEND_BASE_URL}/auth/client/${id}`,
             headers: {
-                'Authorization': ` Bearer ${credentials.token}}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${credentials.token}`
             },
             data: clientData
         };
 
-        axios.request(config)
+        axios.request(configEdit)
             .then((response) => {
-                setIsEditing(false)
                 setIsLoading(false)
+                setIsEditing(false)
             })
             .catch((error) => {
                 console.log(error);
             });
-
-
     }
 
 
@@ -170,7 +170,6 @@ export const ClientDetail = () => {
                                                     name='address_street'
                                                     value={clientData.address_street}
                                                     onChange={handleInputChange}
-                                                    required
                                                     disabled={!isEditing}
                                                 />
                                                 <TextField
@@ -179,7 +178,7 @@ export const ClientDetail = () => {
                                                     name='address_ext'
                                                     value={clientData.address_ext}
                                                     onChange={handleInputChange}
-                                                    required
+
                                                     disabled={!isEditing}
                                                 />
                                                 <TextField
@@ -199,7 +198,7 @@ export const ClientDetail = () => {
                                                     name='address_col'
                                                     value={clientData.address_col}
                                                     onChange={handleInputChange}
-                                                    required
+
                                                     disabled={!isEditing}
                                                 />
                                                 <TextField
@@ -208,7 +207,7 @@ export const ClientDetail = () => {
                                                     name='address_town'
                                                     value={clientData.address_town}
                                                     onChange={handleInputChange}
-                                                    required
+
                                                     disabled={!isEditing}
                                                 />
                                             </div>
@@ -220,7 +219,7 @@ export const ClientDetail = () => {
                                                     name='address_state'
                                                     value={clientData.address_state}
                                                     onChange={handleInputChange}
-                                                    required
+
                                                     disabled={!isEditing}
                                                 />
                                                 <TextField
@@ -229,7 +228,7 @@ export const ClientDetail = () => {
                                                     name='address_zip'
                                                     value={clientData.address_zip}
                                                     onChange={handleInputChange}
-                                                    required
+
                                                     disabled={!isEditing}
                                                 />
                                             </div>

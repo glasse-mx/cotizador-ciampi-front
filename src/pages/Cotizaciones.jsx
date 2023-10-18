@@ -87,7 +87,7 @@ export const Cotizaciones = () => {
                                                             {
 
                                                                 cotizaciones && cotizaciones.map((cotizacion) => (
-                                                                    <tr key={cotizacion.id}>
+                                                                    <tr key={cotizacion.folio_cotizacion_id}>
                                                                         <td className="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                                             <div className="flex px-2 py-1">
                                                                                 <div className="flex flex-col justify-center">
