@@ -1,5 +1,5 @@
 import iconImage from '../assets/img/cotizacion-icon.png'
-import { getActualDate } from '../Hooks/useTools'
+import { formatPhoneNumber, getActualDate } from '../Hooks/useTools'
 import { useAppContext } from '../Context/CredentialsContext'
 import './cotizacionForm.css'
 import { ClientForm } from '../Components/Forms/ClientForm'
@@ -16,12 +16,12 @@ import axios from 'axios'
 export const NewCotizacion = () => {
 
     const [credentials, setCredentials] = useAppContext()
+
     const navigate = useNavigate()
     const [error, setError] = useState({
         clientError: false,
         productError: false,
     })
-
 
     const initialOrderValue = {
         created_by: credentials.user.id,
@@ -63,9 +63,6 @@ export const NewCotizacion = () => {
             .catch((error) => {
                 console.log(error);
             });
-
-        console.log(order)
-
     }
 
     return (
@@ -88,8 +85,14 @@ export const NewCotizacion = () => {
                                 <div className="col">
                                     <img src={iconImage} alt={`Logo ${import.meta.env.VITE_COMPANY_NAME}`} />
                                     <p>Boulevard Adolfo López Mateos 1817 <br /> Ciudad de Mexico - Mexico</p>
-                                    <p>ventas@ciampi.com.mx</p>
-                                    <p>+52 55 1234 5678</p>
+                                    <p>{credentials.user.email}</p>
+                                    <p className='flex'>
+                                        <span className="material-symbols-rounded">
+                                            call
+                                        </span>
+                                        {formatPhoneNumber(credentials.user.phone)}
+                                    </p>
+
                                 </div>
                             </div>
 

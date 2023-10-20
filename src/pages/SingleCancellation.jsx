@@ -104,10 +104,16 @@ export const SingleCancellation = () => {
                                                         <p>{folio.id_cliente.phone}</p>
                                                     </div>
                                                     <div className="col">
-                                                        <h6>Direccion de Entrega</h6>
-                                                        <p>{`${folio.id_cliente.address_street} ${folio.id_cliente.address_ext}, ${folio.id_cliente.address_int && `interior ${folio.id_cliente.address_int}`}`}</p>
-                                                        <p>{`${folio.id_cliente.address_col}, ${folio.id_cliente.address_town} ${folio.id_cliente.address_state}`}</p>
-                                                        <p>{folio.id_cliente.address_zip}</p>
+                                                        {
+                                                            folio.id_cliente.address_street != null && (
+                                                                <>
+                                                                    <h6>Direccion de Entrega</h6>
+                                                                    <p>{`${folio.id_cliente.address_street} ${folio.id_cliente.address_ext}, ${folio.id_cliente.address_int != null ? `interior ${folio.id_cliente.address_int}` : ''}`}</p>
+                                                                    <p>{`${folio.id_cliente.address_col && `${folio.id_cliente.address_col}, `}${folio.id_cliente.address_town} ${folio.id_cliente.address_state}`}</p>
+                                                                    <p>{folio.id_cliente.address_zip && folio.id_cliente.address_zip}</p>
+                                                                </>
+                                                            )
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
@@ -143,7 +149,7 @@ export const SingleCancellation = () => {
                                                         {
                                                             folio.descuentos && folio.descuentos.map((descuento, index) => (
                                                                 <tr key={index}>
-                                                                    <td>1</td>
+                                                                    <td> - </td>
                                                                     <td>{descuento.descripcion}</td>
                                                                     <td>{descuento.cant}</td>
                                                                     <td> - </td>

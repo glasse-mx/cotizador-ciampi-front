@@ -3,6 +3,7 @@ import './form-helper.css'
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useAppContext } from "../../Context/CredentialsContext"
+import { formatPhoneNumber } from "../../Hooks/useTools"
 
 
 
@@ -99,7 +100,6 @@ export const ClientForm = ({ order, setOrder, error, setError }) => {
                 setClientID(response.data.id)
                 setClientData({ ...clientData, id: response.data.id })
                 setOrder({ ...order, id_cliente: parseInt(response.data.id) })
-
                 // setIsLoading(false)
             })
             .catch((error) => {
@@ -268,13 +268,19 @@ export const ClientForm = ({ order, setOrder, error, setError }) => {
                                     <h6>Detalles de Cliente</h6>
                                     <p>{`${clientData.first_name} ${clientData.last_name}`}</p>
                                     <p>{clientData.email}</p>
-                                    <p>{clientData.phone}</p>
+                                    <p>{formatPhoneNumber(clientData.phone)}</p>
                                 </div>
                                 <div className="col">
-                                    <h6>Direccion de Entrega</h6>
-                                    <p>{`${clientData.address_street} ${clientData.address_ext}, ${clientData.address_int && `interior ${clientData.address_int}`}`}</p>
-                                    <p>{`${clientData.address_col}, ${clientData.address_town} ${clientData.address_state}`}</p>
-                                    <p>{clientData.address_zip}</p>
+                                    {
+                                        clientData.address_street != null && (
+                                            <>
+                                                <h6>Direccion de Entrega</h6>
+                                                <p>{`${clientData.address_street} ${clientData.address_ext}, ${clientData.address_int != null ? `interior ${clientData.address_int}` : ''}`}</p>
+                                                <p>{`${clientData.address_col && `${clientData.address_col}, `}${clientData.address_town} ${clientData.address_state}`}</p>
+                                                <p>{clientData.address_zip && clientData.address_zip}</p>
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </div>
                         )
